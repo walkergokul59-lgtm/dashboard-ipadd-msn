@@ -3350,12 +3350,12 @@ function renderSmKpis() {
   const dcN = s.statusCounts.get("DC") || 0;
   const simN = s.statusCounts.get("SIM Installation pending") || 0;
   const nonCommN = s.statusCounts.get(">1 Month Non Comm") || 0;
-  const simPct = s.total > 0 ? simN / s.total : 0;
   const commN = s.statusCounts.get("Communicating") || 0;
+  const simInstallPct = s.total > 0 ? (s.total - simN - dcN) / s.total : 0;
   $("smKpiRow").innerHTML =
     tile("Total smart meters", fmt(s.total), null, false) +
-    tile("SIM Installation", pct(simPct), `${fmt(simN)} meters`, simPct >= 0.3 ? "bad" : simPct > 0 ? "warning" : "good", "sm_sim") +
-    tile("Communicating", fmt(commN), s.total > 0 ? pct(commN / s.total) : "0%", null, "sm_comm") +
+    tile("SIM Installation", pct(simInstallPct), `${fmt(s.total - simN - dcN)} meters`, simInstallPct >= 0.75 ? "good" : simInstallPct < 0.5 ? "bad" : null, "sm_sim") +
+    tile("SIM pending", fmt(simN), s.total > 0 ? pct(simN / s.total) : "0%", simN > 0 ? "bad" : "good", "sm_simpending") +
     tile("DC (disconnected)", fmt(dcN), s.total > 0 ? pct(dcN / s.total) : "0%", dcN > 0 ? "bad" : "good", "sm_dc") +
     tile(">1 Month Non Comm", fmt(nonCommN), s.total > 0 ? pct(nonCommN / s.total) : "0%", nonCommN > 0 ? "bad" : "good", "sm_nc");
 }
