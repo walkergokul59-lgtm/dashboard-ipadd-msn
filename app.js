@@ -3314,7 +3314,7 @@ function smBucket(rows, keyFn, withRegion) {
   }
   return map;
 }
-function smCommRate(e) { return e.total > 0 ? (e.counts.get("SIM Installation pending") || 0) / e.total : 0; }
+function smCommRate(e) { return e.total > 0 ? (e.total - (e.counts.get("SIM Installation pending") || 0) - (e.counts.get("DC") || 0)) / e.total : 0; }
 
 let SMSTATS = null;
 function computeSmStats() {
