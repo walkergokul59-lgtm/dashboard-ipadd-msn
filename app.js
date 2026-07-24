@@ -3375,7 +3375,7 @@ function smMapToItems(map, limit) {
 }
 function smGroupTable(items) {
   return `<div class="table-scroll mini-table"><table>
-    <thead><tr><th>Group</th><th class="num">Comm %</th><th class="num">Total</th><th class="num">Communicating</th><th class="num">DC</th><th class="num">SIM pending</th><th class="num">&gt;1M non-comm</th></tr></thead>
+    <thead><tr><th>Group</th><th class="num">SIM Install %</th><th class="num">Total</th><th class="num">Communicating</th><th class="num">DC</th><th class="num">SIM pending</th><th class="num">&gt;1M non-comm</th></tr></thead>
     <tbody>${items.map((it) => `<tr><td>${esc(it.label)}</td><td class="num">${pct(it.value)}</td><td class="num">${fmt(it.total)}</td>
       <td class="num">${fmt(it.counts.get("Communicating") || 0)}</td><td class="num">${fmt(it.counts.get("DC") || 0)}</td>
       <td class="num">${fmt(it.counts.get("SIM Installation pending") || 0)}</td><td class="num">${fmt(it.counts.get(">1 Month Non Comm") || 0)}</td></tr>`).join("")}</tbody>
@@ -3383,7 +3383,7 @@ function smGroupTable(items) {
 }
 function smItemTip(it) {
   return `<div class="tt-title">${esc(it.label)}</div>
-    <div class="tt-row"><span>Comm %</span><b>${pct(it.value)}</b></div>
+    <div class="tt-row"><span>SIM Install %</span><b>${pct(it.value)}</b></div>
     <div class="tt-row"><span>Total meters</span><b>${fmt(it.total)}</b></div>
     <div class="tt-row"><span>DC</span><b>${fmt(it.counts.get("DC") || 0)}</b></div>
     <div class="tt-row"><span>SIM pending</span><b>${fmt(it.counts.get("SIM Installation pending") || 0)}</b></div>
@@ -3512,7 +3512,7 @@ function renderSmCircleModalTable() {
     return dir * ((a.counts.get(k) || 0) - (b.counts.get(k) || 0));
   });
   const cols = [
-    { key: "label", label: "Circle" }, { key: "value", label: "Comm %" }, { key: "total", label: "Total" },
+    { key: "label", label: "Circle" }, { key: "value", label: "SIM Install %" }, { key: "total", label: "Total" },
     { key: "DC", label: "DC" }, { key: "SIM Installation pending", label: "SIM pending" }, { key: ">1 Month Non Comm", label: ">1M non-comm" },
   ];
   const head = cols.map((c) =>
