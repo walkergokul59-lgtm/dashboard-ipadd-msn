@@ -3314,7 +3314,7 @@ function smBucket(rows, keyFn, withRegion) {
   }
   return map;
 }
-function smCommRate(e) { return e.total > 0 ? (e.counts.get("Communicating") || 0) / e.total : 0; }
+function smCommRate(e) { return e.total > 0 ? (e.counts.get("SIM Installation pending") || 0) / e.total : 0; }
 
 let SMSTATS = null;
 function computeSmStats() {
@@ -3347,15 +3347,15 @@ function renderSmartMeters() {
 
 function renderSmKpis() {
   const s = SMSTATS;
-  const commN = s.statusCounts.get("Communicating") || 0;
   const dcN = s.statusCounts.get("DC") || 0;
   const simN = s.statusCounts.get("SIM Installation pending") || 0;
   const nonCommN = s.statusCounts.get(">1 Month Non Comm") || 0;
-  const commPct = s.total > 0 ? commN / s.total : 0;
+  const simPct = s.total > 0 ? simN / s.total : 0;
+  const commN = s.statusCounts.get("Communicating") || 0;
   $("smKpiRow").innerHTML =
     tile("Total smart meters", fmt(s.total), null, false) +
-    tile("Communicating", pct(commPct), `${fmt(commN)} meters`, commPct >= 0.9 ? "good" : commPct < 0.75 ? "bad" : null, "sm_comm") +
-    tile("SIM Installation pending", fmt(simN), s.total > 0 ? pct(simN / s.total) : "0%", simN > 0 ? "bad" : "good", "sm_sim") +
+    tile("SIM Installation", pct(simPct), `${fmt(simN)} meters`, simPct >= 0.3 ? "bad" : simPct > 0 ? "warning" : "good", "sm_sim") +
+    tile("Communicating", fmt(commN), s.total > 0 ? pct(commN / s.total) : "0%", null, "sm_comm") +
     tile("DC (disconnected)", fmt(dcN), s.total > 0 ? pct(dcN / s.total) : "0%", dcN > 0 ? "bad" : "good", "sm_dc") +
     tile(">1 Month Non Comm", fmt(nonCommN), s.total > 0 ? pct(nonCommN / s.total) : "0%", nonCommN > 0 ? "bad" : "good", "sm_nc");
 }
